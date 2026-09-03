@@ -3,7 +3,7 @@ namespace RazorInlineCss.IntegrationTests;
 public sealed class ScopedCssPipelineTests
 {
     [Fact]
-    public async Task PackedPackageFeedsGeneratedCssToMicrosoftPipelineOnBuildAndPublish()
+    public async Task PackedPackageSmokeTestBuildsAndPublishesThroughMicrosoftPipeline()
     {
         await using var project = await PackageConsumer.CreateBlazorAsync("ScopedCssProofApp");
 
