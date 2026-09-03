@@ -4,8 +4,13 @@ internal static class PackageConsumer
 {
     public static async Task<DotNetProject> CreateBlazorAsync(string name)
     {
+        return await CreateAsync("blazor", name);
+    }
+
+    public static async Task<DotNetProject> CreateAsync(string template, string name)
+    {
         var package = await PackageFixture.GetPackageAsync();
-        var project = await DotNetProject.CreateAsync("blazor", name);
+        var project = await DotNetProject.CreateAsync(template, name);
 
         project.WriteFile("NuGet.Config", $$"""
             <?xml version="1.0" encoding="utf-8"?>

@@ -14,6 +14,13 @@ internal sealed class DotNetProject : IAsyncDisposable
 
     public string ProjectFile => System.IO.Directory.EnumerateFiles(Directory, "*.csproj").Single();
 
+    public static DotNetProject CreateEmpty()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "RazorInlineCss.Tests", Guid.NewGuid().ToString("N"));
+        System.IO.Directory.CreateDirectory(directory);
+        return new DotNetProject(directory);
+    }
+
     public static async Task<DotNetProject> CreateAsync(string template, string name)
     {
         var directory = Path.Combine(Path.GetTempPath(), "RazorInlineCss.Tests", Guid.NewGuid().ToString("N"));
@@ -25,6 +32,20 @@ internal sealed class DotNetProject : IAsyncDisposable
     }
 
     public async Task<ProcessResult> RunAsync(params string[] arguments)
+    {
+        var result = await RunCoreAsync(arguments);
+        Assert.True(result.Succeeded, $"dotnet {string.Join(' ', arguments)} failed:{Environment.NewLine}{result.Output}");
+        return result;
+    }
+
+    public async Task<ProcessResult> RunExpectingFailureAsync(params string[] arguments)
+    {
+        var result = await RunCoreAsync(arguments);
+        Assert.False(result.Succeeded, $"dotnet {string.Join(' ', arguments)} unexpectedly succeeded.");
+        return result;
+    }
+
+    private async Task<ProcessResult> RunCoreAsync(string[] arguments)
     {
         using var process = new Process
         {
@@ -55,9 +76,7 @@ internal sealed class DotNetProject : IAsyncDisposable
         process.BeginErrorReadLine();
         await process.WaitForExitAsync();
 
-        var result = new ProcessResult(process.ExitCode, output.ToString());
-        Assert.True(result.Succeeded, $"dotnet {string.Join(' ', arguments)} failed:{Environment.NewLine}{result.Output}");
-        return result;
+        return new ProcessResult(process.ExitCode, output.ToString());
     }
 
     public void WriteFile(string relativePath, string content)
@@ -78,7 +97,7 @@ internal sealed class DotNetProject : IAsyncDisposable
         {
             System.IO.Directory.Delete(Directory, recursive: true);
         }
-        catch (IOException)
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
         {
             // A failed cleanup must not hide the build assertion that owns this fixture.
         }

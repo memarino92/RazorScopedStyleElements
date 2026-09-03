@@ -51,6 +51,22 @@ public sealed class TransformRazorComponents : Microsoft.Build.Utilities.Task
             {
                 continue;
             }
+
+            if (File.Exists(component.GetMetadata("FullPath") + ".css"))
+            {
+                Log.LogError(
+                    subcategory: null,
+                    errorCode: "RICSS004",
+                    helpKeyword: null,
+                    file: component.GetMetadata("FullPath"),
+                    lineNumber: 1,
+                    columnNumber: 1,
+                    endLineNumber: 1,
+                    endColumnNumber: 2,
+                    message: "A component cannot use both inline CSS and a sibling .razor.css file.");
+                continue;
+            }
+
             var relativePath = GetRelativePath(component);
             var razorPath = Path.Combine(OutputDirectory, "razor", relativePath);
             var cssPath = Path.Combine(OutputDirectory, "css", relativePath + ".css");
