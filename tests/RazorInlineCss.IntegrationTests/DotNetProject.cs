@@ -12,6 +12,8 @@ internal sealed class DotNetProject : IAsyncDisposable
 
     public string Directory { get; }
 
+    public string ProjectFile => System.IO.Directory.EnumerateFiles(Directory, "*.csproj").Single();
+
     public static async Task<DotNetProject> CreateAsync(string template, string name)
     {
         var directory = Path.Combine(Path.GetTempPath(), "RazorInlineCss.Tests", Guid.NewGuid().ToString("N"));
@@ -58,8 +60,20 @@ internal sealed class DotNetProject : IAsyncDisposable
         return result;
     }
 
+    public void WriteFile(string relativePath, string content)
+    {
+        var path = Path.Combine(Directory, relativePath);
+        System.IO.Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        File.WriteAllText(path, content);
+    }
+
     public ValueTask DisposeAsync()
     {
+        if (string.Equals(Environment.GetEnvironmentVariable("RICSS_KEEP_TEMP"), "1", StringComparison.Ordinal))
+        {
+            return ValueTask.CompletedTask;
+        }
+
         try
         {
             System.IO.Directory.Delete(Directory, recursive: true);

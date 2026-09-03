@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup>
+    <RazorInlineCssEnabled Condition="'$(RazorInlineCssEnabled)' == ''">true</RazorInlineCssEnabled>
+  </PropertyGroup>
+</Project>
