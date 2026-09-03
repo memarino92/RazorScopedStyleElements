@@ -32,28 +32,31 @@ public sealed class TransformRazorComponents : Microsoft.Build.Utilities.Task
         foreach (var component in RazorComponents)
         {
             var source = File.ReadAllText(component.GetMetadata("FullPath"));
-            var openingStart = source.IndexOf("<style>", StringComparison.OrdinalIgnoreCase);
-            if (openingStart < 0)
+            var extraction = InlineStyleExtractor.Extract(source);
+            foreach (var diagnostic in extraction.Diagnostics)
+            {
+                Log.LogError(
+                    subcategory: null,
+                    errorCode: diagnostic.Id,
+                    helpKeyword: null,
+                    file: component.GetMetadata("FullPath"),
+                    lineNumber: diagnostic.Line,
+                    columnNumber: diagnostic.Column,
+                    endLineNumber: diagnostic.Line,
+                    endColumnNumber: diagnostic.Column + 1,
+                    message: diagnostic.Message);
+            }
+
+            if (!extraction.HasStyle)
             {
                 continue;
             }
-
-            var contentStart = openingStart + "<style>".Length;
-            var closingStart = source.IndexOf("</style>", contentStart, StringComparison.OrdinalIgnoreCase);
-            if (closingStart < 0)
-            {
-                Log.LogError($"Inline style in '{component.ItemSpec}' does not have a closing </style> element.");
-                continue;
-            }
-
-            var blockEnd = closingStart + "</style>".Length;
             var relativePath = GetRelativePath(component);
             var razorPath = Path.Combine(OutputDirectory, "razor", relativePath);
             var cssPath = Path.Combine(OutputDirectory, "css", relativePath + ".css");
 
-            var transformedSource = PreserveLinesWhileRemoving(source, openingStart, blockEnd - openingStart);
-            WriteIfChanged(razorPath, transformedSource);
-            WriteIfChanged(cssPath, source[contentStart..closingStart].Trim() + Environment.NewLine);
+            WriteIfChanged(razorPath, extraction.TransformedSource);
+            WriteIfChanged(cssPath, extraction.Css!);
 
             var transformed = new TaskItem(razorPath);
             component.CopyMetadataTo(transformed);
@@ -87,13 +90,6 @@ public sealed class TransformRazorComponents : Microsoft.Build.Utilities.Task
         }
 
         return relativePath;
-    }
-
-    private static string PreserveLinesWhileRemoving(string source, int start, int length)
-    {
-        var removed = source.AsSpan(start, length);
-        var replacement = new string(removed.ToArray().Select(character => character is '\r' or '\n' ? character : ' ').ToArray());
-        return string.Concat(source.AsSpan(0, start), replacement, source.AsSpan(start + length));
     }
 
     private static void WriteIfChanged(string path, string content)
