@@ -5,33 +5,7 @@ public sealed class ScopedCssPipelineTests
     [Fact]
     public async Task PackedPackageFeedsGeneratedCssToMicrosoftPipelineOnBuildAndPublish()
     {
-        var package = await PackageFixture.GetPackageAsync();
-        await using var project = await DotNetProject.CreateAsync("blazor", "ScopedCssProofApp");
-
-        project.WriteFile("NuGet.Config", $$"""
-            <?xml version="1.0" encoding="utf-8"?>
-            <configuration>
-              <config>
-                <add key="globalPackagesFolder" value=".packages" />
-              </config>
-              <packageSources>
-                <clear />
-                <add key="local" value="{{Path.GetDirectoryName(package)}}" />
-                <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
-              </packageSources>
-            </configuration>
-            """);
-        var projectText = await File.ReadAllTextAsync(project.ProjectFile);
-        projectText = projectText.Replace(
-            "</Project>",
-            """
-              <ItemGroup>
-                <PackageReference Include="RazorInlineCss" Version="0.1.0" />
-              </ItemGroup>
-            </Project>
-            """,
-            StringComparison.Ordinal);
-        await File.WriteAllTextAsync(project.ProjectFile, projectText);
+        await using var project = await PackageConsumer.CreateBlazorAsync("ScopedCssProofApp");
 
         project.WriteFile("Components/Pages/InlineStyle.razor", """
             @page "/inline-style"

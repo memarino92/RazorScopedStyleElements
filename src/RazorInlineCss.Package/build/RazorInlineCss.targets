@@ -28,4 +28,12 @@
       <FileWrites Include="@(_RazorInlineCssGeneratedCss)" />
     </ItemGroup>
   </Target>
+
+  <Target Name="CleanRazorInlineCss" AfterTargets="Clean">
+    <PropertyGroup>
+      <_RazorInlineCssCleanPath Condition="'$(RazorInlineCssIntermediateOutputPath)' == ''">$(IntermediateOutputPath)RazorInlineCss\</_RazorInlineCssCleanPath>
+      <_RazorInlineCssCleanPath Condition="'$(RazorInlineCssIntermediateOutputPath)' != ''">$(RazorInlineCssIntermediateOutputPath)</_RazorInlineCssCleanPath>
+    </PropertyGroup>
+    <RemoveDir Directories="$(_RazorInlineCssCleanPath)" />
+  </Target>
 </Project>
