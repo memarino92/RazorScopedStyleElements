@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/RazorInlineCss.Package/RazorInlineCss.Package.csproj" />
+    <Project Path="src/RazorInlineCss.Tasks/RazorInlineCss.Tasks.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/RazorInlineCss.IntegrationTests/RazorInlineCss.IntegrationTests.csproj" />
+    <Project Path="tests/RazorInlineCss.Tasks.Tests/RazorInlineCss.Tasks.Tests.csproj" />
+  </Folder>
+</Solution>
