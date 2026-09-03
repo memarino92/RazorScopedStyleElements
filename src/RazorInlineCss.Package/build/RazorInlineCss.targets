@@ -1,9 +1,9 @@
 <Project>
-  <UsingTask TaskName="RazorInlineCss.Tasks.GenerateProofScopedCss"
+  <UsingTask TaskName="RazorInlineCss.Tasks.TransformRazorComponents"
              AssemblyFile="$(MSBuildThisFileDirectory)..\tasks\net10.0\RazorInlineCss.Tasks.dll" />
 
   <!-- ComputeCssScope is the first scoped-CSS stage that consumes ScopedCssInput. -->
-  <Target Name="GenerateRazorInlineCssProof"
+  <Target Name="GenerateRazorInlineCss"
           BeforeTargets="ComputeCssScope"
           DependsOnTargets="ResolveRazorComponentInputs"
           Condition="'$(RazorInlineCssEnabled)' == 'true'">
@@ -12,13 +12,19 @@
       <_RazorInlineCssOutputPath Condition="'$(RazorInlineCssIntermediateOutputPath)' != ''">$(RazorInlineCssIntermediateOutputPath)</_RazorInlineCssOutputPath>
     </PropertyGroup>
 
-    <GenerateProofScopedCss RazorComponents="@(RazorComponent)"
-                            OutputDirectory="$(_RazorInlineCssOutputPath)">
+    <TransformRazorComponents RazorComponents="@(RazorComponent)"
+                              ProjectDirectory="$(MSBuildProjectDirectory)"
+                              OutputDirectory="$(_RazorInlineCssOutputPath)">
+      <Output TaskParameter="OriginalComponents" ItemName="_RazorInlineCssOriginalComponents" />
+      <Output TaskParameter="TransformedComponents" ItemName="_RazorInlineCssTransformedComponents" />
       <Output TaskParameter="GeneratedCss" ItemName="_RazorInlineCssGeneratedCss" />
-    </GenerateProofScopedCss>
+    </TransformRazorComponents>
 
     <ItemGroup>
+      <RazorComponent Remove="@(_RazorInlineCssOriginalComponents)" />
+      <RazorComponent Include="@(_RazorInlineCssTransformedComponents)" />
       <ScopedCssInput Include="@(_RazorInlineCssGeneratedCss)" />
+      <FileWrites Include="@(_RazorInlineCssTransformedComponents)" />
       <FileWrites Include="@(_RazorInlineCssGeneratedCss)" />
     </ItemGroup>
   </Target>
