@@ -69,7 +69,9 @@ internal sealed class DotNetProject : IAsyncDisposable
         };
 
         process.StartInfo.Environment["DOTNET_CLI_TELEMETRY_OPTOUT"] = "1";
+        process.StartInfo.Environment["DOTNET_CLI_USE_MSBUILD_SERVER"] = "0";
         process.StartInfo.Environment["DOTNET_NOLOGO"] = "1";
+        process.StartInfo.Environment["MSBUILDDISABLENODEREUSE"] = "1";
         process.StartInfo.Environment["NUGET_XMLDOC_MODE"] = "skip";
 
         foreach (var argument in arguments)

@@ -43,6 +43,9 @@ internal static class PackageFixture
             },
         };
 
+        process.StartInfo.Environment["DOTNET_CLI_USE_MSBUILD_SERVER"] = "0";
+        process.StartInfo.Environment["MSBUILDDISABLENODEREUSE"] = "1";
+
         foreach (var argument in arguments)
         {
             process.StartInfo.ArgumentList.Add(argument);

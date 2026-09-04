@@ -50,7 +50,7 @@ jobs:
         run: dotnet build RazorScopedStyleElements.slnx --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test RazorScopedStyleElements.slnx --configuration Release --no-build
+        run: dotnet test RazorScopedStyleElements.slnx --configuration Release --no-build --logger "console;verbosity=detailed"
 
   pack:
     name: Validate package
