@@ -1,43 +1,37 @@
 # RazorScopedStyleElements
 
+**Write scoped CSS directly inside your Razor components.**
+
 [![NuGet](https://img.shields.io/nuget/v/RazorScopedStyleElements.svg)](https://www.nuget.org/packages/RazorScopedStyleElements)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.txt)
 
-RazorScopedStyleElements adds build-time support for writing component-scoped CSS in a top-level `<style>` element inside a `.razor` file.
+```razor
+<div class="card">
+    Hello
+</div>
 
-It provides inline authoring only. Scope generation, selector rewriting, static web assets, Razor Class Library behavior, bundling, and publishing are all performed by the Microsoft Razor SDK CSS isolation pipeline.
+<style>
+    .card {
+        padding: 1rem;
+    }
+</style>
+```
 
-## Quick Start
+RazorScopedStyleElements extracts the `<style>` block at build time and passes it to Blazor's native CSS isolation pipeline.
 
-Install the package:
+- No runtime dependency.
+- No custom scoping implementation.
+- No generated files in your repository.
+
+> **Architecture:** RazorScopedStyleElements is an authoring layer over the existing Razor CSS isolation pipeline; it does not implement CSS scoping itself.
+
+## Install
 
 ```shell
 dotnet add package RazorScopedStyleElements
 ```
 
-Write scoped CSS directly in a Razor component:
-
-```razor
-<article class="card">
-    <h2>Inline authoring, SDK isolation</h2>
-    <a href="/details">Details</a>
-</article>
-
-<style>
-    .card {
-        padding: 1rem;
-        border: 1px solid currentColor;
-        border-radius: 0.5rem;
-    }
-
-    ::deep a {
-        color: rebeccapurple;
-    }
-</style>
-
-```
-
-That is all. Continue using normal .NET commands:
+That is almost the entire setup. Continue using normal .NET commands:
 
 ```shell
 dotnet build

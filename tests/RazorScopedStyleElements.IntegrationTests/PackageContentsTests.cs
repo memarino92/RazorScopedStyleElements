@@ -20,5 +20,12 @@ public sealed class PackageContentsTests
         Assert.Contains("CONTRIBUTING.md", entries);
         Assert.Contains("SECURITY.md", entries);
         Assert.DoesNotContain(entries, entry => entry.StartsWith("lib/", StringComparison.OrdinalIgnoreCase));
+
+        var readmeEntry = archive.GetEntry("README.md");
+        Assert.NotNull(readmeEntry);
+        using var reader = new StreamReader(readmeEntry.Open());
+        Assert.Equal(
+            await File.ReadAllTextAsync(Path.Combine(RepositoryPaths.Root, "README.md")),
+            await reader.ReadToEndAsync());
     }
 }
