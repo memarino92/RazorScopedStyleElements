@@ -56,7 +56,7 @@ public sealed class TransformRazorComponents : Microsoft.Build.Utilities.Task
             {
                 Log.LogError(
                     subcategory: null,
-                    errorCode: "RICSS004",
+                    errorCode: "RSSE004",
                     helpKeyword: null,
                     file: component.GetMetadata("FullPath"),
                     lineNumber: 1,

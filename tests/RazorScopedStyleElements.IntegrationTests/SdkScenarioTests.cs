@@ -29,7 +29,7 @@ public sealed class SdkScenarioTests
 
         var result = await project.RunExpectingFailureAsync("build", "--nologo");
 
-        Assert.Contains("RICSS004", result.Output, StringComparison.Ordinal);
+        Assert.Contains("RSSE004", result.Output, StringComparison.Ordinal);
         Assert.Contains("Collision.razor", result.Output, StringComparison.OrdinalIgnoreCase);
     }
 

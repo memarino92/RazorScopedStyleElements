@@ -81,10 +81,10 @@ Custom paths should remain beneath `IntermediateOutputPath` and must remain uniq
 
 | ID | Description |
 | --- | --- |
-| `RICSS001` | A component contains more than one inline style element. |
-| `RICSS002` | A style element is nested in markup or conditional Razor code instead of being top-level. |
-| `RICSS003` | A style element uses attributes, dynamic Razor content, or malformed/unsupported syntax. |
-| `RICSS004` | A component has both inline CSS and a physical sibling `.razor.css` file. |
+| `RSSE001` | A component contains more than one inline style element. |
+| `RSSE002` | A style element is nested in markup or conditional Razor code instead of being top-level. |
+| `RSSE003` | A style element uses attributes, dynamic Razor content, or malformed/unsupported syntax. |
+| `RSSE004` | A component has both inline CSS and a physical sibling `.razor.css` file. |
 
 Diagnostics identify the original `.razor` source and include line and column information where available.
 

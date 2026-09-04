@@ -73,7 +73,7 @@ public sealed class InlineStyleExtractorTests
     {
         var result = InlineStyleExtractor.Extract("<style>.a { }</style>\n<style>.b { }</style>");
 
-        var diagnostic = Assert.Single(result.Diagnostics, item => item.Id == "RICSS001");
+        var diagnostic = Assert.Single(result.Diagnostics, item => item.Id == "RSSE001");
         Assert.Equal(2, diagnostic.Line);
         Assert.False(result.HasStyle);
     }
@@ -85,7 +85,7 @@ public sealed class InlineStyleExtractorTests
     {
         var result = InlineStyleExtractor.Extract(source);
 
-        Assert.Contains(result.Diagnostics, item => item.Id == "RICSS002");
+        Assert.Contains(result.Diagnostics, item => item.Id == "RSSE002");
         Assert.False(result.HasStyle);
     }
 
@@ -98,7 +98,7 @@ public sealed class InlineStyleExtractorTests
     {
         var result = InlineStyleExtractor.Extract(source);
 
-        Assert.Contains(result.Diagnostics, item => item.Id == "RICSS003");
+        Assert.Contains(result.Diagnostics, item => item.Id == "RSSE003");
         Assert.False(result.HasStyle);
     }
 

@@ -37,7 +37,7 @@ dotnet pack src/RazorScopedStyleElements.Package/RazorScopedStyleElements.Packag
 - Do not add a runtime Blazor dependency or runtime assembly to consuming applications.
 - Never modify source `.razor` files or write generated files outside the intermediate output tree.
 - Preserve the original logical component path when replacing a physical Razor compilation input.
-- Avoid regex-based Razor parsing. Unsupported syntax should produce a stable `RICSSxxx` diagnostic rather than a heuristic transformation.
+- Avoid regex-based Razor parsing. Unsupported syntax should produce a stable `RSSExxx` diagnostic rather than a heuristic transformation.
 - Avoid rewriting unchanged generated files; incremental build and `dotnet watch` behavior are part of the product contract.
 - Prefer end-to-end SDK integration tests over mocked MSBuild behavior.
 

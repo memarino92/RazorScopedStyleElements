@@ -78,26 +78,26 @@ public static class InlineStyleExtractor
 
             if (!string.IsNullOrWhiteSpace(tag.Attributes))
             {
-                diagnostics.Add(CreateDiagnostic(source, "RICSS003", "Inline <style> elements cannot have attributes.", index));
+                diagnostics.Add(CreateDiagnostic(source, "RSSE003", "Inline <style> elements cannot have attributes.", index));
             }
 
             var closingStart = source.IndexOf("</style>", tag.End, StringComparison.OrdinalIgnoreCase);
             if (closingStart < 0)
             {
-                diagnostics.Add(CreateDiagnostic(source, "RICSS003", "Inline <style> element is missing its closing tag.", index));
+                diagnostics.Add(CreateDiagnostic(source, "RSSE003", "Inline <style> element is missing its closing tag.", index));
                 break;
             }
 
             if (elements.Count > 0)
             {
-                diagnostics.Add(CreateDiagnostic(source, "RICSS002", "Inline <style> elements must be top-level.", index));
+                diagnostics.Add(CreateDiagnostic(source, "RSSE002", "Inline <style> elements must be top-level.", index));
             }
 
             var css = source[tag.End..closingStart];
             var dynamicOffset = FindDynamicRazorTransition(css);
             if (dynamicOffset >= 0)
             {
-                diagnostics.Add(CreateDiagnostic(source, "RICSS003", "Inline CSS cannot contain runtime Razor expressions.", tag.End + dynamicOffset));
+                diagnostics.Add(CreateDiagnostic(source, "RSSE003", "Inline CSS cannot contain runtime Razor expressions.", tag.End + dynamicOffset));
             }
 
             styles.Add(new StyleSpan(index, closingStart + "</style>".Length, tag.End, closingStart));
@@ -106,7 +106,7 @@ public static class InlineStyleExtractor
 
         if (styles.Count > 1)
         {
-            diagnostics.Add(CreateDiagnostic(source, "RICSS001", "A Razor component can contain only one inline <style> element.", styles[1].Start));
+            diagnostics.Add(CreateDiagnostic(source, "RSSE001", "A Razor component can contain only one inline <style> element.", styles[1].Start));
         }
 
         if (styles.Count == 0 && !diagnostics.Any(diagnostic => diagnostic.Message.Contains("<style>", StringComparison.Ordinal)))
@@ -195,7 +195,7 @@ public static class InlineStyleExtractor
                 var end = source.IndexOf("*/", index + 2, StringComparison.Ordinal);
                 if (end < 0)
                 {
-                    diagnostics.Add(CreateDiagnostic(source, "RICSS003", "Unterminated Razor code comment.", index));
+                    diagnostics.Add(CreateDiagnostic(source, "RSSE003", "Unterminated Razor code comment.", index));
                     return source.Length;
                 }
 
@@ -211,7 +211,7 @@ public static class InlineStyleExtractor
 
             if (source[index] == '<' && TryReadTag(source, index, out var tag) && string.Equals(tag.Name, "style", StringComparison.OrdinalIgnoreCase))
             {
-                diagnostics.Add(CreateDiagnostic(source, "RICSS002", "Inline <style> elements cannot be conditional or inside Razor code.", index));
+                diagnostics.Add(CreateDiagnostic(source, "RSSE002", "Inline <style> elements cannot be conditional or inside Razor code.", index));
             }
 
             if (source[index] == opening)
@@ -224,7 +224,7 @@ public static class InlineStyleExtractor
             }
         }
 
-        diagnostics.Add(CreateDiagnostic(source, "RICSS003", "Unterminated Razor code block or expression.", start));
+        diagnostics.Add(CreateDiagnostic(source, "RSSE003", "Unterminated Razor code block or expression.", start));
         return source.Length;
     }
 
@@ -336,7 +336,7 @@ public static class InlineStyleExtractor
             return end + terminator.Length;
         }
 
-        diagnostics.Add(CreateDiagnostic(source, "RICSS003", message, start));
+        diagnostics.Add(CreateDiagnostic(source, "RSSE003", message, start));
         return source.Length;
     }
 
