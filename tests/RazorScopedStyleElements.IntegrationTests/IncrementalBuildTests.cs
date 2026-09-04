@@ -23,13 +23,15 @@ public sealed class IncrementalBuildTests
         Assert.Equal(initialTimes, GetWriteTimes(fooRazor, fooCss, barRazor, barCss));
 
         await Task.Delay(1200);
-        project.WriteFile("Components/Foo.razor", Component("foo", "green"));
+        project.WriteFile("Components/Foo.razor", Component("foo", "green").Replace(">foo</p>", ">foo updated</p>", StringComparison.Ordinal));
         await project.RunAsync("build", "--no-restore", "--nologo");
         var editedTimes = GetWriteTimes(fooRazor, fooCss, barRazor, barCss);
         Assert.True(editedTimes[0] > initialTimes[0]);
         Assert.True(editedTimes[1] > initialTimes[1]);
         Assert.Equal(initialTimes[2], editedTimes[2]);
         Assert.Equal(initialTimes[3], editedTimes[3]);
+        Assert.Contains(">foo updated</p>", await File.ReadAllTextAsync(fooRazor), StringComparison.Ordinal);
+        Assert.Contains("color: green", await File.ReadAllTextAsync(fooCss), StringComparison.Ordinal);
 
         project.WriteFile("Components/Foo.razor", "<p class=\"foo\">No inline style</p>");
         await project.RunAsync("build", "--no-restore", "--nologo");
