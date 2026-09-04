@@ -70,7 +70,7 @@ jobs:
         run: dotnet pack src/RazorScopedStyleElements.Package/RazorScopedStyleElements.Package.csproj --configuration Release --output artifacts/packages
 
       - name: Upload package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: RazorScopedStyleElements-package
           path: artifacts/packages/*.nupkg
