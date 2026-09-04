@@ -8,6 +8,9 @@
     <Authors>RazorScopedStyleElements contributors</Authors>
     <Description>Build-time inline scoped CSS authoring for Razor components, powered by the Microsoft Razor SDK CSS isolation pipeline.</Description>
     <PackageTags>razor;blazor;css;css-isolation;msbuild</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl Condition="'$(GITHUB_REPOSITORY)' != ''">https://github.com/$(GITHUB_REPOSITORY)</RepositoryUrl>
+    <PackageProjectUrl Condition="'$(GITHUB_REPOSITORY)' != ''">https://github.com/$(GITHUB_REPOSITORY)</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -25,6 +28,8 @@
     <None Include="build/RazorScopedStyleElements.targets" Pack="true" PackagePath="build/RazorScopedStyleElements.targets" />
     <None Include="../../README.md" Pack="true" PackagePath="README.md" />
     <None Include="../../LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
+    <None Include="../../CONTRIBUTING.md" Pack="true" PackagePath="CONTRIBUTING.md" />
+    <None Include="../../SECURITY.md" Pack="true" PackagePath="SECURITY.md" />
     <None Include="../RazorScopedStyleElements.Tasks/bin/$(Configuration)/net10.0/RazorScopedStyleElements.Tasks.dll"
           Pack="true"
           PackagePath="tasks/net10.0/RazorScopedStyleElements.Tasks.dll"

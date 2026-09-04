@@ -17,6 +17,8 @@ public sealed class PackageContentsTests
         Assert.Contains("tasks/net10.0/RazorScopedStyleElements.Tasks.dll", entries);
         Assert.Contains("README.md", entries);
         Assert.Contains("LICENSE.txt", entries);
+        Assert.Contains("CONTRIBUTING.md", entries);
+        Assert.Contains("SECURITY.md", entries);
         Assert.DoesNotContain(entries, entry => entry.StartsWith("lib/", StringComparison.OrdinalIgnoreCase));
     }
 }

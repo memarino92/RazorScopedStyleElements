@@ -1,6 +1,6 @@
 <Project>
   <UsingTask TaskName="RazorScopedStyleElements.Tasks.TransformRazorComponents"
-             AssemblyFile="$(MSBuildThisFileDirectory)..\tasks\net10.0\RazorScopedStyleElements.Tasks.dll" />
+             AssemblyFile="$(MSBuildThisFileDirectory)../tasks/net10.0/RazorScopedStyleElements.Tasks.dll" />
 
   <!-- ComputeCssScope is the first scoped-CSS stage that consumes ScopedCssInput. -->
   <Target Name="GenerateRazorScopedStyleElements"
@@ -8,7 +8,7 @@
           DependsOnTargets="ResolveRazorComponentInputs"
           Condition="'$(RazorScopedStyleElementsEnabled)' == 'true'">
     <PropertyGroup>
-      <_RazorScopedStyleElementsOutputPath Condition="'$(RazorScopedStyleElementsIntermediateOutputPath)' == ''">$(IntermediateOutputPath)RazorScopedStyleElements\</_RazorScopedStyleElementsOutputPath>
+      <_RazorScopedStyleElementsOutputPath Condition="'$(RazorScopedStyleElementsIntermediateOutputPath)' == ''">$(IntermediateOutputPath)RazorScopedStyleElements</_RazorScopedStyleElementsOutputPath>
       <_RazorScopedStyleElementsOutputPath Condition="'$(RazorScopedStyleElementsIntermediateOutputPath)' != ''">$(RazorScopedStyleElementsIntermediateOutputPath)</_RazorScopedStyleElementsOutputPath>
     </PropertyGroup>
 
@@ -31,7 +31,7 @@
 
   <Target Name="CleanRazorScopedStyleElements" AfterTargets="Clean">
     <PropertyGroup>
-      <_RazorScopedStyleElementsCleanPath Condition="'$(RazorScopedStyleElementsIntermediateOutputPath)' == ''">$(IntermediateOutputPath)RazorScopedStyleElements\</_RazorScopedStyleElementsCleanPath>
+      <_RazorScopedStyleElementsCleanPath Condition="'$(RazorScopedStyleElementsIntermediateOutputPath)' == ''">$(IntermediateOutputPath)RazorScopedStyleElements</_RazorScopedStyleElementsCleanPath>
       <_RazorScopedStyleElementsCleanPath Condition="'$(RazorScopedStyleElementsIntermediateOutputPath)' != ''">$(RazorScopedStyleElementsIntermediateOutputPath)</_RazorScopedStyleElementsCleanPath>
     </PropertyGroup>
     <RemoveDir Directories="$(_RazorScopedStyleElementsCleanPath)" />

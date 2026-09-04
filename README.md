@@ -1,28 +1,25 @@
 # RazorScopedStyleElements
 
+[![NuGet](https://img.shields.io/nuget/v/RazorScopedStyleElements.svg)](https://www.nuget.org/packages/RazorScopedStyleElements)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.txt)
+
 RazorScopedStyleElements adds build-time support for writing component-scoped CSS in a top-level `<style>` element inside a `.razor` file.
 
 It provides inline authoring only. Scope generation, selector rewriting, static web assets, Razor Class Library behavior, bundling, and publishing are all performed by the Microsoft Razor SDK CSS isolation pipeline.
 
-## Requirements
+## Quick Start
 
-- .NET 10 SDK / MSBuild 18 or later
-- An SDK-style Razor or Blazor project with scoped CSS enabled
+Install the package:
 
-RazorScopedStyleElements has no runtime Blazor dependency and adds no runtime assembly to the consuming application.
-
-## Install
-
-```xml
-<PackageReference Include="RazorScopedStyleElements" Version="0.1.0" />
+```shell
+dotnet add package RazorScopedStyleElements
 ```
 
-The package uses NuGet `build/` assets and is imported by a direct `PackageReference`. No additional command or tool manifest is required.
-
-## Usage
+Write scoped CSS directly in a Razor component:
 
 ```razor
 <article class="card">
+    <h2>Inline authoring, SDK isolation</h2>
     <a href="/details">Details</a>
 </article>
 
@@ -30,6 +27,7 @@ The package uses NuGet `build/` assets and is imported by a direct `PackageRefer
     .card {
         padding: 1rem;
         border: 1px solid currentColor;
+        border-radius: 0.5rem;
     }
 
     ::deep a {
@@ -37,11 +35,9 @@ The package uses NuGet `build/` assets and is imported by a direct `PackageRefer
     }
 </style>
 
-@code {
-}
 ```
 
-Use normal .NET commands:
+That is all. Continue using normal .NET commands:
 
 ```shell
 dotnet build
@@ -50,7 +46,14 @@ dotnet publish
 dotnet watch
 ```
 
-The generated Razor and `.razor.css` inputs are written beneath the target-framework-specific `IntermediateOutputPath`. Source files are never modified.
+The package removes the style element from the Razor compilation input, extracts its contents under `obj`, and hands the generated `.razor.css` input to Microsoft's existing isolation pipeline. Source files are never modified, and the application receives no RazorScopedStyleElements runtime assembly.
+
+## Requirements
+
+- .NET 10 SDK / MSBuild 18 or later
+- An SDK-style Razor or Blazor project with scoped CSS enabled
+
+The package uses NuGet `build/` assets and is imported by a direct `PackageReference`. No additional command, tool manifest, or runtime dependency is required.
 
 ## Supported Syntax
 
@@ -120,6 +123,8 @@ dotnet pack src/RazorScopedStyleElements.Package/RazorScopedStyleElements.Packag
 ```
 
 The integration tests pack the package, install it from an isolated local NuGet feed into fresh SDK projects, and verify Microsoft-generated isolated CSS across build and publish scenarios.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development workflow, architecture constraints, and pull request guidance. Please report security issues according to [SECURITY.md](SECURITY.md).
 
 ## License
 
