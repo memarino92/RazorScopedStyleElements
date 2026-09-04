@@ -65,10 +65,12 @@ The NuGet package is the entire setup. No separate preprocessing command, tool m
 
 ```shell
 dotnet build
-dotnet watch
+dotnet watch --no-hot-reload
 dotnet test
 dotnet publish
 ```
+
+Use restart mode when watching components with inline styles. The current .NET Hot Reload pipeline does not rerun the MSBuild transformation that produces the Razor and scoped CSS inputs, so plain `dotnet watch` cannot apply edits to those components. `--no-hot-reload` rebuilds the transformed inputs and restarts the application automatically when a watched file changes.
 
 ### Requirements
 
