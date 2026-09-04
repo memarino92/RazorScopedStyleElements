@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Text;
 
 namespace RazorScopedStyleElements.IntegrationTests;
 
@@ -78,16 +77,22 @@ internal sealed class DotNetProject : IAsyncDisposable
             process.StartInfo.ArgumentList.Add(argument);
         }
 
-        var output = new StringBuilder();
-        process.OutputDataReceived += (_, eventArgs) => AppendLine(output, eventArgs.Data);
-        process.ErrorDataReceived += (_, eventArgs) => AppendLine(output, eventArgs.Data);
-
         process.Start();
-        process.BeginOutputReadLine();
-        process.BeginErrorReadLine();
-        await process.WaitForExitAsync();
+        var standardOutput = process.StandardOutput.ReadToEndAsync();
+        var standardError = process.StandardError.ReadToEndAsync();
 
-        return new ProcessResult(process.ExitCode, output.ToString());
+        try
+        {
+            await process.WaitForExitAsync().WaitAsync(TimeSpan.FromMinutes(5));
+        }
+        catch (TimeoutException)
+        {
+            process.Kill(entireProcessTree: true);
+            await process.WaitForExitAsync();
+            throw new TimeoutException($"dotnet {string.Join(' ', arguments)} timed out:{Environment.NewLine}{await standardOutput}{await standardError}");
+        }
+
+        return new ProcessResult(process.ExitCode, await standardOutput + await standardError);
     }
 
     public void WriteFile(string relativePath, string content)
@@ -114,14 +119,6 @@ internal sealed class DotNetProject : IAsyncDisposable
         }
 
         return ValueTask.CompletedTask;
-    }
-
-    private static void AppendLine(StringBuilder output, string? value)
-    {
-        if (value is not null)
-        {
-            output.AppendLine(value);
-        }
     }
 }
 

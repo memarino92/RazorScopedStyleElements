@@ -51,7 +51,18 @@ internal static class PackageFixture
         process.Start();
         var standardOutput = process.StandardOutput.ReadToEndAsync();
         var standardError = process.StandardError.ReadToEndAsync();
-        await process.WaitForExitAsync();
+
+        try
+        {
+            await process.WaitForExitAsync().WaitAsync(TimeSpan.FromMinutes(5));
+        }
+        catch (TimeoutException)
+        {
+            process.Kill(entireProcessTree: true);
+            await process.WaitForExitAsync();
+            throw new TimeoutException($"dotnet {string.Join(' ', arguments)} timed out:{Environment.NewLine}{await standardOutput}{await standardError}");
+        }
+
         var output = await standardOutput + await standardError;
         Assert.True(process.ExitCode == 0, output);
     }
