@@ -16,19 +16,30 @@ internal sealed class DotNetProject : IAsyncDisposable
 
     public static DotNetProject CreateEmpty()
     {
-        var directory = Path.Combine(Path.GetTempPath(), "RazorScopedStyleElements.Tests", Guid.NewGuid().ToString("N"));
+        var directory = CreateTestDirectory();
         System.IO.Directory.CreateDirectory(directory);
         return new DotNetProject(directory);
     }
 
     public static async Task<DotNetProject> CreateAsync(string template, string name)
     {
-        var directory = Path.Combine(Path.GetTempPath(), "RazorScopedStyleElements.Tests", Guid.NewGuid().ToString("N"));
+        var directory = CreateTestDirectory();
         System.IO.Directory.CreateDirectory(directory);
 
         var project = new DotNetProject(directory);
         await project.RunAsync("new", template, "--name", name, "--output", ".", "--framework", "net10.0", "--no-restore");
         return project;
+    }
+
+    private static string CreateTestDirectory()
+    {
+        var tempPath = Path.GetTempPath();
+        if (OperatingSystem.IsMacOS() && tempPath.StartsWith("/var/", StringComparison.Ordinal))
+        {
+            tempPath = "/private" + tempPath;
+        }
+
+        return Path.Combine(tempPath, "RazorScopedStyleElements.Tests", Guid.NewGuid().ToString("N"));
     }
 
     public async Task<ProcessResult> RunAsync(params string[] arguments)

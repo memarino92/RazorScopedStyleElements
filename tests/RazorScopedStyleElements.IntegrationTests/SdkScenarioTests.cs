@@ -1,3 +1,5 @@
+using System.Xml.Linq;
+
 namespace RazorScopedStyleElements.IntegrationTests;
 
 public sealed class SdkScenarioTests
@@ -35,16 +37,20 @@ public sealed class SdkScenarioTests
     public async Task MultiTargetBuildUsesSeparateIntermediateDirectories()
     {
         await using var project = await PackageConsumer.CreateAsync("razorclasslib", "MultiTargetLibrary");
-        var projectText = await File.ReadAllTextAsync(project.ProjectFile);
-        projectText = projectText.Replace("<TargetFramework>net10.0</TargetFramework>", "<TargetFrameworks>net9.0;net10.0</TargetFrameworks>", StringComparison.Ordinal);
-        projectText = projectText.Replace(
-            "<PackageReference Include=\"Microsoft.AspNetCore.Components.Web\" Version=\"10.0.2\" />",
-            """
-            <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.2" Condition="'$(TargetFramework)' == 'net9.0'" />
-            <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.2" Condition="'$(TargetFramework)' == 'net10.0'" />
-            """,
-            StringComparison.Ordinal);
-        await File.WriteAllTextAsync(project.ProjectFile, projectText);
+        var projectDocument = XDocument.Load(project.ProjectFile, LoadOptions.PreserveWhitespace);
+        var targetFramework = projectDocument.Descendants().Single(element => element.Name.LocalName == "TargetFramework");
+        targetFramework.Name = targetFramework.Name.Namespace + "TargetFrameworks";
+        targetFramework.Value = "net9.0;net10.0";
+
+        var net10Reference = projectDocument.Descendants().Single(element =>
+            element.Name.LocalName == "PackageReference" &&
+            string.Equals((string?)element.Attribute("Include"), "Microsoft.AspNetCore.Components.Web", StringComparison.Ordinal));
+        net10Reference.SetAttributeValue("Condition", "'$(TargetFramework)' == 'net10.0'");
+        var net9Reference = new XElement(net10Reference);
+        net9Reference.SetAttributeValue("Version", "9.0.0");
+        net9Reference.SetAttributeValue("Condition", "'$(TargetFramework)' == 'net9.0'");
+        net10Reference.AddBeforeSelf(net9Reference);
+        projectDocument.Save(project.ProjectFile);
         project.WriteFile("Components/Multi.razor", "<p class=\"multi\">Multi</p><style>.multi { color: navy; }</style>");
 
         await project.RunAsync("build", "--configuration", "Release", "--nologo");
