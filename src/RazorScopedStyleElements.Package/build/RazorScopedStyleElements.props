@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup>
+    <RazorScopedStyleElementsEnabled Condition="'$(RazorScopedStyleElementsEnabled)' == ''">true</RazorScopedStyleElementsEnabled>
+  </PropertyGroup>
+</Project>

@@ -1,4 +1,4 @@
-namespace RazorInlineCss.IntegrationTests;
+namespace RazorScopedStyleElements.IntegrationTests;
 
 public sealed class ScopedCssPipelineTests
 {
@@ -33,7 +33,7 @@ public sealed class ScopedCssPipelineTests
         var css = await File.ReadAllTextAsync(bundle);
         Assert.Matches(@"\.ricss-proof\[b-[a-z0-9]+\]", css);
 
-        var transformed = Path.Combine(project.Directory, "obj", "Debug", "net10.0", "RazorInlineCss", "razor", "Components", "Pages", "InlineStyle.razor");
+        var transformed = Path.Combine(project.Directory, "obj", "Debug", "net10.0", "RazorScopedStyleElements", "razor", "Components", "Pages", "InlineStyle.razor");
         Assert.True(File.Exists(transformed));
         Assert.DoesNotContain("<style>", await File.ReadAllTextAsync(transformed), StringComparison.OrdinalIgnoreCase);
         Assert.Equal(originalSource, await File.ReadAllTextAsync(Path.Combine(project.Directory, "Components", "Pages", "InlineStyle.razor")));

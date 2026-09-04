@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <IsPackable>true</IsPackable>
-    <PackageId>RazorInlineCss</PackageId>
+    <PackageId>RazorScopedStyleElements</PackageId>
     <Version>0.1.0</Version>
-    <Title>RazorInlineCss</Title>
-    <Authors>RazorInlineCss contributors</Authors>
+    <Title>Razor Scoped Style Elements</Title>
+    <Authors>RazorScopedStyleElements contributors</Authors>
     <Description>Build-time inline scoped CSS authoring for Razor components, powered by the Microsoft Razor SDK CSS isolation pipeline.</Description>
     <PackageTags>razor;blazor;css;css-isolation;msbuild</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -13,21 +13,21 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
-    <!-- MSBuild task assemblies are intentionally loaded by build/RazorInlineCss.targets, not referenced by consumers. -->
+    <!-- MSBuild task assemblies are intentionally loaded by the package targets, not referenced by consumers. -->
     <NoWarn>$(NoWarn);NU5100</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../RazorInlineCss.Tasks/RazorInlineCss.Tasks.csproj"
+    <ProjectReference Include="../RazorScopedStyleElements.Tasks/RazorScopedStyleElements.Tasks.csproj"
                       ReferenceOutputAssembly="false"
                       PrivateAssets="all" />
-    <None Include="build/RazorInlineCss.props" Pack="true" PackagePath="build/RazorInlineCss.props" />
-    <None Include="build/RazorInlineCss.targets" Pack="true" PackagePath="build/RazorInlineCss.targets" />
+    <None Include="build/RazorScopedStyleElements.props" Pack="true" PackagePath="build/RazorScopedStyleElements.props" />
+    <None Include="build/RazorScopedStyleElements.targets" Pack="true" PackagePath="build/RazorScopedStyleElements.targets" />
     <None Include="../../README.md" Pack="true" PackagePath="README.md" />
     <None Include="../../LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
-    <None Include="../RazorInlineCss.Tasks/bin/$(Configuration)/net10.0/RazorInlineCss.Tasks.dll"
+    <None Include="../RazorScopedStyleElements.Tasks/bin/$(Configuration)/net10.0/RazorScopedStyleElements.Tasks.dll"
           Pack="true"
-          PackagePath="tasks/net10.0/RazorInlineCss.Tasks.dll"
+          PackagePath="tasks/net10.0/RazorScopedStyleElements.Tasks.dll"
           Visible="false" />
   </ItemGroup>
 

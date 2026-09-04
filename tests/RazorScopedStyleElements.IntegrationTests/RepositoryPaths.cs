@@ -1,4 +1,4 @@
-namespace RazorInlineCss.IntegrationTests;
+namespace RazorScopedStyleElements.IntegrationTests;
 
 internal static class RepositoryPaths
 {
@@ -7,7 +7,7 @@ internal static class RepositoryPaths
     private static string FindRoot()
     {
         var directory = new DirectoryInfo(AppContext.BaseDirectory);
-        while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "RazorInlineCss.slnx")))
+        while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "RazorScopedStyleElements.slnx")))
         {
             directory = directory.Parent;
         }

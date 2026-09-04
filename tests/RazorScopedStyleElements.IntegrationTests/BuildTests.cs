@@ -1,4 +1,4 @@
-namespace RazorInlineCss.IntegrationTests;
+namespace RazorScopedStyleElements.IntegrationTests;
 
 public sealed class BuildTests
 {

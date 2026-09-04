@@ -1,6 +1,6 @@
 using System.IO.Compression;
 
-namespace RazorInlineCss.IntegrationTests;
+namespace RazorScopedStyleElements.IntegrationTests;
 
 public sealed class PackageContentsTests
 {
@@ -12,9 +12,9 @@ public sealed class PackageContentsTests
         using var archive = ZipFile.OpenRead(package);
         var entries = archive.Entries.Select(entry => entry.FullName).ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        Assert.Contains("build/RazorInlineCss.props", entries);
-        Assert.Contains("build/RazorInlineCss.targets", entries);
-        Assert.Contains("tasks/net10.0/RazorInlineCss.Tasks.dll", entries);
+        Assert.Contains("build/RazorScopedStyleElements.props", entries);
+        Assert.Contains("build/RazorScopedStyleElements.targets", entries);
+        Assert.Contains("tasks/net10.0/RazorScopedStyleElements.Tasks.dll", entries);
         Assert.Contains("README.md", entries);
         Assert.Contains("LICENSE.txt", entries);
         Assert.DoesNotContain(entries, entry => entry.StartsWith("lib/", StringComparison.OrdinalIgnoreCase));

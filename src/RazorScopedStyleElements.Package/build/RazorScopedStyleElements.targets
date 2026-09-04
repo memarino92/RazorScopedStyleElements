@@ -1,0 +1,39 @@
+<Project>
+  <UsingTask TaskName="RazorScopedStyleElements.Tasks.TransformRazorComponents"
+             AssemblyFile="$(MSBuildThisFileDirectory)..\tasks\net10.0\RazorScopedStyleElements.Tasks.dll" />
+
+  <!-- ComputeCssScope is the first scoped-CSS stage that consumes ScopedCssInput. -->
+  <Target Name="GenerateRazorScopedStyleElements"
+          BeforeTargets="ComputeCssScope"
+          DependsOnTargets="ResolveRazorComponentInputs"
+          Condition="'$(RazorScopedStyleElementsEnabled)' == 'true'">
+    <PropertyGroup>
+      <_RazorScopedStyleElementsOutputPath Condition="'$(RazorScopedStyleElementsIntermediateOutputPath)' == ''">$(IntermediateOutputPath)RazorScopedStyleElements\</_RazorScopedStyleElementsOutputPath>
+      <_RazorScopedStyleElementsOutputPath Condition="'$(RazorScopedStyleElementsIntermediateOutputPath)' != ''">$(RazorScopedStyleElementsIntermediateOutputPath)</_RazorScopedStyleElementsOutputPath>
+    </PropertyGroup>
+
+    <TransformRazorComponents RazorComponents="@(RazorComponent)"
+                              ProjectDirectory="$(MSBuildProjectDirectory)"
+                              OutputDirectory="$(_RazorScopedStyleElementsOutputPath)">
+      <Output TaskParameter="OriginalComponents" ItemName="_RazorScopedStyleElementsOriginalComponents" />
+      <Output TaskParameter="TransformedComponents" ItemName="_RazorScopedStyleElementsTransformedComponents" />
+      <Output TaskParameter="GeneratedCss" ItemName="_RazorScopedStyleElementsGeneratedCss" />
+    </TransformRazorComponents>
+
+    <ItemGroup>
+      <RazorComponent Remove="@(_RazorScopedStyleElementsOriginalComponents)" />
+      <RazorComponent Include="@(_RazorScopedStyleElementsTransformedComponents)" />
+      <ScopedCssInput Include="@(_RazorScopedStyleElementsGeneratedCss)" />
+      <FileWrites Include="@(_RazorScopedStyleElementsTransformedComponents)" />
+      <FileWrites Include="@(_RazorScopedStyleElementsGeneratedCss)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="CleanRazorScopedStyleElements" AfterTargets="Clean">
+    <PropertyGroup>
+      <_RazorScopedStyleElementsCleanPath Condition="'$(RazorScopedStyleElementsIntermediateOutputPath)' == ''">$(IntermediateOutputPath)RazorScopedStyleElements\</_RazorScopedStyleElementsCleanPath>
+      <_RazorScopedStyleElementsCleanPath Condition="'$(RazorScopedStyleElementsIntermediateOutputPath)' != ''">$(RazorScopedStyleElementsIntermediateOutputPath)</_RazorScopedStyleElementsCleanPath>
+    </PropertyGroup>
+    <RemoveDir Directories="$(_RazorScopedStyleElementsCleanPath)" />
+  </Target>
+</Project>

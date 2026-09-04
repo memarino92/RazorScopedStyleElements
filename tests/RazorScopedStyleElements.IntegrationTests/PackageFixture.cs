@@ -1,4 +1,4 @@
-namespace RazorInlineCss.IntegrationTests;
+namespace RazorScopedStyleElements.IntegrationTests;
 
 internal static class PackageFixture
 {
@@ -15,12 +15,12 @@ internal static class PackageFixture
                 return packagePath;
             }
 
-            var feed = Path.Combine(Path.GetTempPath(), "RazorInlineCss.Tests", "packages", Guid.NewGuid().ToString("N"));
+            var feed = Path.Combine(Path.GetTempPath(), "RazorScopedStyleElements.Tests", "packages", Guid.NewGuid().ToString("N"));
             System.IO.Directory.CreateDirectory(feed);
-            var project = Path.Combine(RepositoryPaths.Root, "src", "RazorInlineCss.Package", "RazorInlineCss.Package.csproj");
+            var project = Path.Combine(RepositoryPaths.Root, "src", "RazorScopedStyleElements.Package", "RazorScopedStyleElements.Package.csproj");
 
             await RunDotNetAsync(RepositoryPaths.Root, "pack", project, "--configuration", "Debug", "--output", feed, "--nologo");
-            packagePath = Path.Combine(feed, "RazorInlineCss.0.1.0.nupkg");
+            packagePath = Path.Combine(feed, "RazorScopedStyleElements.0.1.0.nupkg");
             Assert.True(File.Exists(packagePath), $"Package was not created at {packagePath}.");
             return packagePath;
         }

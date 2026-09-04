@@ -1,7 +1,7 @@
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
-namespace RazorInlineCss.Tasks;
+namespace RazorScopedStyleElements.Tasks;
 
 public sealed class TransformRazorComponents : Microsoft.Build.Utilities.Task
 {

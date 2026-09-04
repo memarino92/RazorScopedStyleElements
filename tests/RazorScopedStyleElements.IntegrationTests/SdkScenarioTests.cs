@@ -1,4 +1,4 @@
-namespace RazorInlineCss.IntegrationTests;
+namespace RazorScopedStyleElements.IntegrationTests;
 
 public sealed class SdkScenarioTests
 {
@@ -49,8 +49,8 @@ public sealed class SdkScenarioTests
 
         await project.RunAsync("build", "--configuration", "Release", "--nologo");
 
-        Assert.True(File.Exists(Path.Combine(project.Directory, "obj", "Release", "net9.0", "RazorInlineCss", "razor", "Components", "Multi.razor")));
-        Assert.True(File.Exists(Path.Combine(project.Directory, "obj", "Release", "net10.0", "RazorInlineCss", "razor", "Components", "Multi.razor")));
+        Assert.True(File.Exists(Path.Combine(project.Directory, "obj", "Release", "net9.0", "RazorScopedStyleElements", "razor", "Components", "Multi.razor")));
+        Assert.True(File.Exists(Path.Combine(project.Directory, "obj", "Release", "net10.0", "RazorScopedStyleElements", "razor", "Components", "Multi.razor")));
     }
 
     [Fact]
@@ -74,7 +74,7 @@ public sealed class SdkScenarioTests
 
         var libraryProject = Path.Combine(root.Directory, "Library", "InlineLibrary.csproj");
         var libraryText = await File.ReadAllTextAsync(libraryProject);
-        libraryText = libraryText.Replace("</Project>", "<ItemGroup><PackageReference Include=\"RazorInlineCss\" Version=\"0.1.0\" /></ItemGroup></Project>", StringComparison.Ordinal);
+        libraryText = libraryText.Replace("</Project>", "<ItemGroup><PackageReference Include=\"RazorScopedStyleElements\" Version=\"0.1.0\" /></ItemGroup></Project>", StringComparison.Ordinal);
         await File.WriteAllTextAsync(libraryProject, libraryText);
         root.WriteFile("Library/InlineCard.razor", "<article class=\"rcl-inline\">RCL</article><style>.rcl-inline { color: maroon; }</style>");
 

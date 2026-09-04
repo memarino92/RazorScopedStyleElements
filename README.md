@@ -1,6 +1,6 @@
-# RazorInlineCss
+# RazorScopedStyleElements
 
-RazorInlineCss adds build-time support for writing component-scoped CSS in a top-level `<style>` element inside a `.razor` file.
+RazorScopedStyleElements adds build-time support for writing component-scoped CSS in a top-level `<style>` element inside a `.razor` file.
 
 It provides inline authoring only. Scope generation, selector rewriting, static web assets, Razor Class Library behavior, bundling, and publishing are all performed by the Microsoft Razor SDK CSS isolation pipeline.
 
@@ -9,12 +9,12 @@ It provides inline authoring only. Scope generation, selector rewriting, static 
 - .NET 10 SDK / MSBuild 18 or later
 - An SDK-style Razor or Blazor project with scoped CSS enabled
 
-RazorInlineCss has no runtime Blazor dependency and adds no runtime assembly to the consuming application.
+RazorScopedStyleElements has no runtime Blazor dependency and adds no runtime assembly to the consuming application.
 
 ## Install
 
 ```xml
-<PackageReference Include="RazorInlineCss" Version="0.1.0" />
+<PackageReference Include="RazorScopedStyleElements" Version="0.1.0" />
 ```
 
 The package uses NuGet `build/` assets and is imported by a direct `PackageReference`. No additional command or tool manifest is required.
@@ -66,7 +66,7 @@ Disable all transformation for a project:
 
 ```xml
 <PropertyGroup>
-  <RazorInlineCssEnabled>false</RazorInlineCssEnabled>
+  <RazorScopedStyleElementsEnabled>false</RazorScopedStyleElementsEnabled>
 </PropertyGroup>
 ```
 
@@ -74,7 +74,7 @@ Override the generated-file root when necessary:
 
 ```xml
 <PropertyGroup>
-  <RazorInlineCssIntermediateOutputPath>$(IntermediateOutputPath)custom-inline-css/</RazorInlineCssIntermediateOutputPath>
+  <RazorScopedStyleElementsIntermediateOutputPath>$(IntermediateOutputPath)custom-scoped-styles/</RazorScopedStyleElementsIntermediateOutputPath>
 </PropertyGroup>
 ```
 
@@ -114,9 +114,9 @@ The extractor deliberately uses a bounded structural tokenizer instead of regex 
 ## Development
 
 ```shell
-dotnet build RazorInlineCss.slnx
-dotnet test RazorInlineCss.slnx
-dotnet pack src/RazorInlineCss.Package/RazorInlineCss.Package.csproj
+dotnet build RazorScopedStyleElements.slnx
+dotnet test RazorScopedStyleElements.slnx
+dotnet pack src/RazorScopedStyleElements.Package/RazorScopedStyleElements.Package.csproj
 ```
 
 The integration tests pack the package, install it from an isolated local NuGet feed into fresh SDK projects, and verify Microsoft-generated isolated CSS across build and publish scenarios.

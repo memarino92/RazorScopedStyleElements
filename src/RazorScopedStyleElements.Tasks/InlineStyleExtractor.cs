@@ -1,4 +1,4 @@
-namespace RazorInlineCss.Tasks;
+namespace RazorScopedStyleElements.Tasks;
 
 /// <summary>
 /// Performs a bounded structural scan of Razor markup without taking a dependency on SDK-internal compiler binaries.

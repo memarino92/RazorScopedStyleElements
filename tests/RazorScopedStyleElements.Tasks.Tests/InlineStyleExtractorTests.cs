@@ -1,4 +1,4 @@
-namespace RazorInlineCss.Tasks.Tests;
+namespace RazorScopedStyleElements.Tasks.Tests;
 
 public sealed class InlineStyleExtractorTests
 {

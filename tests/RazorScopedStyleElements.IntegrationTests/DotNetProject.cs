@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Text;
 
-namespace RazorInlineCss.IntegrationTests;
+namespace RazorScopedStyleElements.IntegrationTests;
 
 internal sealed class DotNetProject : IAsyncDisposable
 {
@@ -16,14 +16,14 @@ internal sealed class DotNetProject : IAsyncDisposable
 
     public static DotNetProject CreateEmpty()
     {
-        var directory = Path.Combine(Path.GetTempPath(), "RazorInlineCss.Tests", Guid.NewGuid().ToString("N"));
+        var directory = Path.Combine(Path.GetTempPath(), "RazorScopedStyleElements.Tests", Guid.NewGuid().ToString("N"));
         System.IO.Directory.CreateDirectory(directory);
         return new DotNetProject(directory);
     }
 
     public static async Task<DotNetProject> CreateAsync(string template, string name)
     {
-        var directory = Path.Combine(Path.GetTempPath(), "RazorInlineCss.Tests", Guid.NewGuid().ToString("N"));
+        var directory = Path.Combine(Path.GetTempPath(), "RazorScopedStyleElements.Tests", Guid.NewGuid().ToString("N"));
         System.IO.Directory.CreateDirectory(directory);
 
         var project = new DotNetProject(directory);
@@ -88,7 +88,7 @@ internal sealed class DotNetProject : IAsyncDisposable
 
     public ValueTask DisposeAsync()
     {
-        if (string.Equals(Environment.GetEnvironmentVariable("RICSS_KEEP_TEMP"), "1", StringComparison.Ordinal))
+        if (string.Equals(Environment.GetEnvironmentVariable("RSSE_KEEP_TEMP"), "1", StringComparison.Ordinal))
         {
             return ValueTask.CompletedTask;
         }

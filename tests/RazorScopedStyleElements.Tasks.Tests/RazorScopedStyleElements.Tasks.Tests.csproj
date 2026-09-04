@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/RazorInlineCss.Tasks/RazorInlineCss.Tasks.csproj" />
+    <ProjectReference Include="../../src/RazorScopedStyleElements.Tasks/RazorScopedStyleElements.Tasks.csproj" />
   </ItemGroup>
 
   <ItemGroup>

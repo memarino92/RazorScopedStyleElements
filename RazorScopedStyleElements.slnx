@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/RazorScopedStyleElements.Package/RazorScopedStyleElements.Package.csproj" />
+    <Project Path="src/RazorScopedStyleElements.Tasks/RazorScopedStyleElements.Tasks.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/RazorScopedStyleElements.IntegrationTests/RazorScopedStyleElements.IntegrationTests.csproj" />
+    <Project Path="tests/RazorScopedStyleElements.Tasks.Tests/RazorScopedStyleElements.Tasks.Tests.csproj" />
+  </Folder>
+</Solution>

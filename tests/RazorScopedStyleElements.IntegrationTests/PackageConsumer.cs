@@ -1,4 +1,4 @@
-namespace RazorInlineCss.IntegrationTests;
+namespace RazorScopedStyleElements.IntegrationTests;
 
 internal static class PackageConsumer
 {
@@ -31,7 +31,7 @@ internal static class PackageConsumer
             "</Project>",
             """
               <ItemGroup>
-                <PackageReference Include="RazorInlineCss" Version="0.1.0" />
+                <PackageReference Include="RazorScopedStyleElements" Version="0.1.0" />
               </ItemGroup>
             </Project>
             """,

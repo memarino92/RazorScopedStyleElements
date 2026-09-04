@@ -1,4 +1,4 @@
-namespace RazorInlineCss.IntegrationTests;
+namespace RazorScopedStyleElements.IntegrationTests;
 
 public sealed class IncrementalBuildTests
 {
@@ -11,7 +11,7 @@ public sealed class IncrementalBuildTests
 
         await project.RunAsync("build", "--nologo");
 
-        var generatedRoot = Path.Combine(project.Directory, "obj", "Debug", "net10.0", "RazorInlineCss");
+        var generatedRoot = Path.Combine(project.Directory, "obj", "Debug", "net10.0", "RazorScopedStyleElements");
         var fooRazor = Path.Combine(generatedRoot, "razor", "Components", "Foo.razor");
         var fooCss = Path.Combine(generatedRoot, "css", "Components", "Foo.razor.css");
         var barRazor = Path.Combine(generatedRoot, "razor", "Components", "Bar.razor");
@@ -49,9 +49,9 @@ public sealed class IncrementalBuildTests
         await using var project = await PackageConsumer.CreateBlazorAsync("DisabledApp");
         project.WriteFile("Components/Disabled.razor", Component("disabled", "red"));
 
-        await project.RunAsync("build", "--nologo", "-p:RazorInlineCssEnabled=false");
+        await project.RunAsync("build", "--nologo", "-p:RazorScopedStyleElementsEnabled=false");
 
-        var generatedRoot = Path.Combine(project.Directory, "obj", "Debug", "net10.0", "RazorInlineCss");
+        var generatedRoot = Path.Combine(project.Directory, "obj", "Debug", "net10.0", "RazorScopedStyleElements");
         Assert.False(Directory.Exists(generatedRoot));
         Assert.DoesNotContain(".disabled[b-", await ReadBundleAsync(project), StringComparison.Ordinal);
     }
