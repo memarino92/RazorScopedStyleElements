@@ -20,7 +20,7 @@ internal static class PackageFixture
             var project = Path.Combine(RepositoryPaths.Root, "src", "RazorScopedStyleElements.Package", "RazorScopedStyleElements.Package.csproj");
 
             await RunDotNetAsync(RepositoryPaths.Root, "pack", project, "--configuration", "Debug", "--output", feed, "--nologo");
-            packagePath = Path.Combine(feed, "RazorScopedStyleElements.0.1.0.nupkg");
+            packagePath = Path.Combine(feed, "RazorScopedStyleElements.0.1.1.nupkg");
             Assert.True(File.Exists(packagePath), $"Package was not created at {packagePath}.");
             return packagePath;
         }

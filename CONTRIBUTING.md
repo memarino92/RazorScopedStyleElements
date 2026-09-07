@@ -70,8 +70,8 @@ One-time repository and NuGet.org setup:
 Create and push a version tag only after CI passes on the release commit:
 
 ```shell
-git tag v0.1.0
-git push origin v0.1.0
+git tag vX.Y.Z
+git push origin vX.Y.Z
 ```
 
 The tag value without the leading `v` becomes the NuGet package version. The publish workflow rebuilds, retests, packs, authenticates with `NuGet/login@v1`, and pushes the package to NuGet.org.

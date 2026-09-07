@@ -31,7 +31,7 @@ internal static class PackageConsumer
             "</Project>",
             """
               <ItemGroup>
-                <PackageReference Include="RazorScopedStyleElements" Version="0.1.0" />
+                <PackageReference Include="RazorScopedStyleElements" Version="0.1.1" />
               </ItemGroup>
             </Project>
             """,
