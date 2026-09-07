@@ -3,7 +3,7 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>RazorScopedStyleElements</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Title>Razor Scoped Style Elements</Title>
     <Authors>RazorScopedStyleElements contributors</Authors>
     <Description>Build-time inline scoped CSS authoring for Razor components, powered by the Microsoft Razor SDK CSS isolation pipeline.</Description>

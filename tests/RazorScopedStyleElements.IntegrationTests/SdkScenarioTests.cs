@@ -80,7 +80,7 @@ public sealed class SdkScenarioTests
 
         var libraryProject = Path.Combine(root.Directory, "Library", "InlineLibrary.csproj");
         var libraryText = await File.ReadAllTextAsync(libraryProject);
-        libraryText = libraryText.Replace("</Project>", "<ItemGroup><PackageReference Include=\"RazorScopedStyleElements\" Version=\"0.1.0\" /></ItemGroup></Project>", StringComparison.Ordinal);
+        libraryText = libraryText.Replace("</Project>", "<ItemGroup><PackageReference Include=\"RazorScopedStyleElements\" Version=\"0.1.1\" /></ItemGroup></Project>", StringComparison.Ordinal);
         await File.WriteAllTextAsync(libraryProject, libraryText);
         root.WriteFile("Library/InlineCard.razor", "<article class=\"rcl-inline\">RCL</article><style>.rcl-inline { color: maroon; }</style>");
 

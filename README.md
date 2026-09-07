@@ -65,10 +65,12 @@ The NuGet package is the entire setup. No separate preprocessing command, tool m
 
 ```shell
 dotnet build
-dotnet watch
+dotnet watch --no-hot-reload
 dotnet test
 dotnet publish
 ```
+
+Use restart mode when watching components with inline styles. Plain Hot Reload does not rerun the package's MSBuild transformation. See the [Hot Reload research](https://github.com/memarino92/RazorScopedStyleElements/blob/main/HOT_RELOAD.md) for the technical investigation and proposed upstream solution.
 
 ### Requirements
 
@@ -180,6 +182,7 @@ Version 0.x deliberately supports a constrained authoring model:
 - Razor expressions cannot supply CSS values at runtime.
 - A component cannot combine inline CSS with its own sibling `.razor.css` file.
 - No editor extension, CSS language-service integration, syntax highlighting, or completion is provided for CSS inside the `<style>` element.
+- Plain `dotnet watch` Hot Reload does not rerun the MSBuild transformation. See the [Hot Reload research](https://github.com/memarino92/RazorScopedStyleElements/blob/main/HOT_RELOAD.md) for the root cause, evaluated designs, and upstream recommendation.
 
 ## Development
 
